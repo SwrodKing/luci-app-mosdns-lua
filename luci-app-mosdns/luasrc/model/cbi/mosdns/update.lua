@@ -27,6 +27,8 @@ default = 3
 o = s:option(Value, "github_proxy", translate("GitHub Proxy"), translate("Update data files with GitHub Proxy, leave blank to disable proxy downloads."))
 o:value("https://hub.gitmirror.com", translate("https://hub.gitmirror.com"))
 o:value("https://ghps.cc", translate("https://ghps.cc"))
+o:value("https://gh-proxy.org", translate("https://gh-proxy.org"))
+o:value("https://ghfast.top", translate("https://ghfast.top"))
 o.rmempty = true
 o.default = ""
 
