@@ -10,7 +10,7 @@ on:
         default: 'latest'
   push:
     tags:
-      - "v*"
+      - "v5.*"
 
 jobs:
   build:
@@ -62,6 +62,27 @@ jobs:
         uses: crazy-max/ghaction-upx@v4
         with:
           install-only: true
+
+      - name: Build with Static Linking
+        run: |
+          sed -i '/golang-package/a \\tGO_PKG_DEFAULT_LDFLAGS:=-w -s -extldflags "-static"' mosdns/Makefile
+
+      - name: UPX Compress
+        # if: ${{ matrix.arch != 'loongarch64_generic' && matrix.arch != 'mips64_mips64r2' && matrix.arch != 'mips64_octeonplus' && matrix.arch != 'mips64el_mips64r2' && matrix.arch != 'riscv64_riscv64' }}
+        if: >-
+          matrix.arch != 'loongarch64_generic' &&
+          matrix.arch != 'mips64_mips64r2' &&
+          matrix.arch != 'mips64_octeonplus' &&
+          matrix.arch != 'mips64el_mips64r2' &&
+          matrix.arch != 'riscv64_riscv64'
+        # run: |
+          # sed -i '/openlist.init/a \\t/usr/bin/upx --lzma --best $(1)\/usr\/bin\/openlist' openlist/Makefile
+         run: |
+          # sed 修复点：
+          # 1. \t 转义为 \\t
+          # 2. / 不需要手动 \/ 转义，直接写 /
+          # 3. $ 全部改为 $$ 防止GA预解析
+          sed -i '/mosdns.init/a \\t\/usr\/bin\/upx --lzma --best $$(1)\/usr\/bin\/mosdns' mosdns/Makefile
 
       - name: Get v2ray-geodata
         run: |
