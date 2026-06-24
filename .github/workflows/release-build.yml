@@ -69,9 +69,6 @@ jobs:
         uses: crazy-max/ghaction-upx@v4
         with:
           install-only: true
-          # version: latest
-      - name: UPX version
-        run: upx --version
 
       # - name: Build with Static Linking
         # run: |
@@ -95,7 +92,7 @@ jobs:
 
       - name: UPX Compress
         # if: ${{ matrix.arch != 'loongarch64_generic' && matrix.arch != 'mips64_mips64r2' && matrix.arch != 'mips64_octeonplus' && matrix.arch != 'mips64el_mips64r2' && matrix.arch != 'riscv64_riscv64' }}
-        if: |
+        if: >-
           env.SKIP_BUILD == '0' &&
           env.EFFECTIVE_ARCH != 'loongarch64_generic' &&
           env.EFFECTIVE_ARCH != 'mips64_mips64r2' &&
@@ -104,7 +101,7 @@ jobs:
           env.EFFECTIVE_ARCH != 'riscv64_riscv64' &&
           env.EFFECTIVE_ARCH != 'riscv64_generic'
         run: |
-          sed -i '/\/usr\/bin\/mosdns/a \\t\/usr\/bin\/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
+          sed -i '/Install\/Bin/a \\t/usr/bin/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
 
       - name: Building packages
         if: ${{ env.SKIP_BUILD == '0' }}
