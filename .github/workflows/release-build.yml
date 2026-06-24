@@ -59,7 +59,8 @@ jobs:
           # - SNAPSHOT
 
     steps:
-      - uses: actions/checkout@main
+      # - uses: actions/checkout@main
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -68,6 +69,9 @@ jobs:
         uses: crazy-max/ghaction-upx@v4
         with:
           install-only: true
+          # version: latest
+      - name: UPX version
+        run: upx --version
 
       # - name: Build with Static Linking
         # run: |
@@ -86,19 +90,23 @@ jobs:
             echo "SKIP_BUILD=1" >> $GITHUB_ENV
           else
             echo "EFFECTIVE_ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
-            echo "ARCH=${{ matrix.arch }}-${{ matrix.sdk }}" >> $GITHUB_ENV
+            echo "ARCH=${{ matrix.sdk }}-${{ matrix.arch }}" >> $GITHUB_ENV
           fi
 
       # - name: UPX Compress
         # if: ${{ matrix.arch != 'loongarch64_generic' && matrix.arch != 'mips64_mips64r2' && matrix.arch != 'mips64_octeonplus' && matrix.arch != 'mips64el_mips64r2' && matrix.arch != 'riscv64_riscv64' }}
-        # if: >-
-          # matrix.arch != 'loongarch64_generic' &&
-          # matrix.arch != 'mips64_mips64r2' &&
-          # matrix.arch != 'mips64_octeonplus' &&
-          # matrix.arch != 'mips64el_mips64r2' &&
-          # matrix.arch != 'riscv64_riscv64'
-        # run: |
-          # sed -i '/mosdns.init/a \\t/usr/bin/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
+        if: |
+          env.SKIP_BUILD == '0' &&
+          env.EFFECTIVE_ARCH != 'loongarch64_generic' &&
+          env.EFFECTIVE_ARCH != 'mips64_mips64r2' &&
+          env.EFFECTIVE_ARCH != 'mips64_octeonplus' &&
+          env.EFFECTIVE_ARCH != 'mips64el_mips64r2' &&
+          env.EFFECTIVE_ARCH != 'riscv64_riscv64' &&
+          env.EFFECTIVE_ARCH != 'riscv64_generic'
+        run: |
+          sed -i '/\/usr\/bin\/mosdns/a \\t\/usr\/bin\/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
+          echo "==== Check mosdns/Makefile ===="
+          grep -C 3 "upx" mosdns/Makefile || echo "Warning: UPX line not found!"
 
       - name: Building packages
         if: ${{ env.SKIP_BUILD == '0' }}
