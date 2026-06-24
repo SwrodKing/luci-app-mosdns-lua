@@ -103,8 +103,8 @@ jobs:
       - name: Building packages
         if: ${{ env.SKIP_BUILD == '0' }}
         # uses: sbwml/openwrt-gh-action-sdk@go1.22
-        # uses: sbwml/openwrt-gh-action-sdk@go1.25
-        uses: sbwml/openwrt-gh-action-sdk@go1.26
+        uses: sbwml/openwrt-gh-action-sdk@go1.25
+        # uses: sbwml/openwrt-gh-action-sdk@go1.26
         env:
           # ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
           FEEDNAME: packages_ci
@@ -143,6 +143,7 @@ jobs:
           allowUpdates: true
           replacesArtifacts: true
           prerelease: false
-          artifacts: "${{ matrix.sdk }}-${{ matrix.arch }}.tar.gz"
+          # artifacts: "${{ matrix.sdk }}-${{ matrix.arch }}.tar.gz"
+          artifacts: "${{ env.ARCH }}.tar.gz"
           # 手动触发时若未输入 tag，默认使用 latest，避免空值
-          fallbackTag: latest
+          # fallbackTag: latest
