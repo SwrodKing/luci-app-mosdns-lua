@@ -105,7 +105,7 @@ jobs:
           env.EFFECTIVE_ARCH != 'riscv64_generic'
         run: |
           # sed -i '/\/usr\/bin\/mosdns/a \\t\/usr\/bin\/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
-          sed -i '/openlist.init/a \\t/usr/bin/upx --lzma --best $(1)\/usr\/bin\/openlist' openlist/Makefile
+          sed -i '/mosdns.init/a \\t/usr/bin/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
 
       - name: Building packages
         if: ${{ env.SKIP_BUILD == '0' }}
