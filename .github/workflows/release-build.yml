@@ -105,6 +105,7 @@ jobs:
           env.EFFECTIVE_ARCH != 'riscv64_generic'
         run: |
           sed -i '/\/usr\/bin\/mosdns/a \\t\/usr\/bin\/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
+        run: |
           echo "==== Check mosdns/Makefile ===="
           grep -C 3 "upx" mosdns/Makefile || echo "Warning: UPX line not found!"
 
