@@ -106,8 +106,8 @@ jobs:
       - name: Building packages
         if: ${{ env.SKIP_BUILD == '0' }}
         # uses: sbwml/openwrt-gh-action-sdk@go1.22
-        uses: sbwml/openwrt-gh-action-sdk@go1.25
-        # uses: sbwml/openwrt-gh-action-sdk@go1.26
+        # uses: sbwml/openwrt-gh-action-sdk@go1.25
+        uses: sbwml/openwrt-gh-action-sdk@go1.26
         env:
           # ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
           FEEDNAME: packages_ci
