@@ -90,7 +90,7 @@ jobs:
             echo "SKIP_BUILD=1" >> $GITHUB_ENV
           else
             echo "EFFECTIVE_ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
-            echo "ARCH=${{ matrix.sdk }}-${{ matrix.arch }}" >> $GITHUB_ENV
+            echo "ARCH=${{ matrix.arch }}-${{ matrix.sdk }}" >> $GITHUB_ENV
           fi
 
       - name: UPX Compress
