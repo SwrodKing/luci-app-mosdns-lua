@@ -97,8 +97,8 @@ jobs:
           matrix.arch != 'mips64_octeonplus' &&
           matrix.arch != 'mips64el_mips64r2' &&
           matrix.arch != 'riscv64_riscv64'
-        run: |
-          sed -i '/mosdns.init/a \\t/usr/bin/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
+        # run: |
+          # sed -i '/mosdns.init/a \\t/usr/bin/upx --lzma --best $(1)\/usr\/bin\/mosdns' mosdns/Makefile
 
       - name: Building packages
         if: ${{ env.SKIP_BUILD == '0' }}
